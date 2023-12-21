@@ -157,7 +157,7 @@ def demarrer_quiz(mode_choisi):
     st.session_state['en_jeu'] = True
     st.session_state['reponse_validee'] = False
     st.session_state['start_time'] = time.time()  # Enregistrer le début du quiz
-    st.experimental_rerun()
+    st.rerun()
 
 def afficher_question_et_reponse():
     current_index = st.session_state['current_question_index']
@@ -186,11 +186,11 @@ def afficher_question_et_reponse():
     if st.session_state['time_left'] > 1:
         time.sleep(1)
         st.session_state['time_left'] -= 1
-        st.experimental_rerun()
+        st.rerun()
     if st.session_state['time_left'] == 1:
         st.session_state['reponse_validee'] = True
         passer_a_la_question_suivante()
-        st.experimental_rerun()
+        st.rerun()
     else:
         st.session_state['reponse_validee'] = True
         passer_a_la_question_suivante()
@@ -310,7 +310,7 @@ def display_chat():
             submit_button = st.form_submit_button("Envoyer")
             if submit_button and message:
                 send_message(username, message)
-                st.experimental_rerun()  # Rafraîchir après l'envoi du message
+                st.rerun()  # Rafraîchir après l'envoi du message
         
         # Afficher les messages
         for message in messages_list:
