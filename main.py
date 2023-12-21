@@ -61,7 +61,7 @@ def login_interface():
         success, message = create_or_verify_user(username, password)
         if success:
             st.session_state['user_pseudo'] = username
-            st.experimental_rerun()  # Rafraîchit la page après la mise à jour de session_state
+            st.rerun()  # Rafraîchit la page après la mise à jour de session_state
         else:
             st.sidebar.error(message)
 
