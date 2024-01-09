@@ -180,7 +180,7 @@ def afficher_question_et_reponse():
 
     if not st.session_state.get('reponse_validee', False):
         if question['points'] == 5:
-            choix = st.text_input("Votre réponse :", key=f"reponse_{current_index}")
+            choix = st.text_input("Votre réponse :", key=f"propositions_{current_index}")
         else:
             choix = st.radio("Choisissez votre réponse :", question['propositions'], key=f"reponse_{current_index}")
 
