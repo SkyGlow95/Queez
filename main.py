@@ -22,20 +22,6 @@ from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 
-def double_hash_passwords(passwords):
-    hashed_passwords = []
-    for password in passwords:
-        # Premier hachage
-        hash1 = hashlib.sha256(password.encode()).hexdigest()
-        # Deuxième hachage
-        hash2 = hashlib.sha256(hash1.encode()).hexdigest()
-        hashed_passwords.append(hash2)
-    return hashed_passwords
-
-# Remplacez 'abc' et 'def' par vos mots de passe réels
-double_hashed_passwords = double_hash_passwords(['abc', 'def'])
-print(double_hashed_passwords)
-
 authenticator = stauth.Authenticate(
     config['credentials'],
     config['cookie']['name'],
