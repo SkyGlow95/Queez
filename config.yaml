@@ -1,13 +1,17 @@
 credentials:
   usernames:
-    SkyGlow:
-      email: dcs.yann@gmail.com
-      name: SkyGlow
-      password: abc # To be replaced with hashed password
+    jsmith:
+      email: jsmith@gmail.com
+      name: John Smith
+      password: # Placeholder for hashed password of 'abc'
+    rbriggs:
+      email: rbriggs@gmail.com
+      name: Rebecca Briggs
+      password: # Placeholder for hashed password of 'def'
 cookie:
   expiry_days: 30
-  key: random_signature_key # Must be string
-  name: random_cookie_name
+  key: some_signature_key # Must be string
+  name: some_cookie_name
 preauthorized:
   emails:
   - melsby@gmail.com
