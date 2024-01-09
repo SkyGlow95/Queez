@@ -36,6 +36,42 @@ authenticator = stauth.Authenticate(
 # Créer un widget de connexion
 name, authentication_status, username = authenticator.login('Login', 'main')
 
+try:
+    if authenticator.register_user('Register user', preauthorization=False):
+        st.success('User registered successfully')
+except Exception as e:
+    st.error(e)
+
+try:
+    username_of_forgotten_password, email_of_forgotten_password, new_random_password = authenticator.forgot_password('Forgot password')
+    if username_of_forgotten_password:
+        st.success('New password to be sent securely')
+        # Random password should be transferred to user securely
+    else:
+        st.error('Username not found')
+except Exception as e:
+    st.error(e)
+
+try:
+    username_of_forgotten_username, email_of_forgotten_username = authenticator.forgot_username('Forgot username')
+    if username_of_forgotten_username:
+        st.success('Username to be sent securely')
+        # Username should be transferred to user securely
+    else:
+        st.error('Email not found')
+except Exception as e:
+    st.error(e)
+
+if st.session_state["authentication_status"]:
+    try:
+        if authenticator.update_user_details(st.session_state["username"], 'Update user details'):
+            st.success('Entries updated successfully')
+    except Exception as e:
+        st.error(e)
+
+with open('config.yaml', 'w') as file:
+    yaml.dump(config, file, default_flow_style=False)
+
 # Gérer le statut d'authentification
 if authentication_status:
     st.session_state['name'] = name  # Stocker le nom dans l'état de session
