@@ -30,6 +30,20 @@ authenticator = stauth.Authenticate(
     config['preauthorized']
 )
 
+def double_hash_passwords(passwords):
+    hashed_passwords = []
+    for password in passwords:
+        # Premier hachage
+        hash1 = hashlib.sha256(password.encode()).hexdigest()
+        # Deuxième hachage
+        hash2 = hashlib.sha256(hash1.encode()).hexdigest()
+        hashed_passwords.append(hash2)
+    return hashed_passwords
+
+# Remplacez 'abc' et 'def' par vos mots de passe réels
+double_hashed_passwords = double_hash_passwords(['abc', 'def'])
+print(double_hashed_passwords)
+
 name, authentication_status, username = authenticator.login('Login', 'main')
 
 if st.session_state["authentication_status"]:
