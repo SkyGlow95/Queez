@@ -132,11 +132,11 @@ def recuperer_questions(type_question):
     questions = []
     for doc in db.collection("quizzes").where("type", "==", type_question).stream():
         question_data = doc.to_dict()
-        bonne_reponse = question_data['reponse'][0]  # Supposer que la première réponse est la bonne
+        bonne_reponse = question_data['propositions'][0]  # Supposer que la première réponse est la bonne
         random.shuffle(question_data['reponse'])  # Mélanger les réponses
 
         # Identifier l'index de la bonne réponse après mélange
-        question_data['bonne_reponse_index'] = question_data['reponse'].index(bonne_reponse)
+        question_data['bonne_reponse_index'] = question_data['propositions'].index(bonne_reponse)
         questions.append(question_data)
     return questions
 
