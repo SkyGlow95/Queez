@@ -32,8 +32,6 @@ authenticator = stauth.Authenticate(
 
 authenticator.login('Login', 'main')
 
-hashed_passwords = stauth.Hasher(['abc', 'def']).generate()
-
 if st.session_state["authentication_status"]:
     authenticator.logout('Logout', 'main', key='unique_key')
     st.write(f'Welcome *{st.session_state["name"]}*')
