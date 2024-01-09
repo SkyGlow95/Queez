@@ -3,6 +3,8 @@ from firebase_admin import credentials, firestore, initialize_app, get_app, App
 import uuid
 import hashlib
 import random
+import smtplib
+from email.mime.text import MIMEText
 
 st.set_page_config(
     page_title="Queez",
@@ -39,26 +41,6 @@ name, authentication_status, username = authenticator.login('Login', 'main')
 try:
     if authenticator.register_user('Register user', preauthorization=False):
         st.success('User registered successfully')
-except Exception as e:
-    st.error(e)
-
-try:
-    username_of_forgotten_password, email_of_forgotten_password, new_random_password = authenticator.forgot_password('Forgot password')
-    if username_of_forgotten_password:
-        st.success('New password to be sent securely')
-        # Random password should be transferred to user securely
-    else:
-        st.error('Username not found')
-except Exception as e:
-    st.error(e)
-
-try:
-    username_of_forgotten_username, email_of_forgotten_username = authenticator.forgot_username('Forgot username')
-    if username_of_forgotten_username:
-        st.success('Username to be sent securely')
-        # Username should be transferred to user securely
-    else:
-        st.error('Email not found')
 except Exception as e:
     st.error(e)
 
