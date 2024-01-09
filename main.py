@@ -47,6 +47,13 @@ elif authentication_status == False:
 elif authentication_status is None:
     st.warning('Veuillez entrer votre nom d’utilisateur et votre mot de passe')
 
+if st.session_state["authentication_status"]:
+    try:
+        if authenticator.reset_password(st.session_state["username"], 'Reset password'):
+            st.success('Password modified successfully')
+    except Exception as e:
+        st.error(e)
+
 # Initialisation de Firestore
 def init_firestore():
     try:
