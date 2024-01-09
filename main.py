@@ -18,8 +18,6 @@ st.set_page_config(
 
 import streamlit_authenticator as stauth
 
-hashed_passwords = stauth.Hasher(['abc', 'def']).generate()
-
 import yaml
 from yaml.loader import SafeLoader
 with open('config.yaml') as file:
