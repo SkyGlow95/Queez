@@ -141,7 +141,7 @@ def recuperer_questions(type_question):
     return questions
 
 
-MODES_DE_JEU = ["cyber", "Mode 2", "Mode 3", "Mode 4", "Mode 5"]
+MODES_DE_JEU = ["cyber", "litterature", "science", "geographie", "Extrème"]
 
 def mode_solo():
     st.header("Mode Solo")
