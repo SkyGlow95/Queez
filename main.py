@@ -128,8 +128,8 @@ def mettre_a_jour_classement(score, temps_total):
     else:
         db.collection("rank").document(user_id).set({"score": score})
 
-def recuperer_questions(type_question):
-    questions = []
+def recuperer_quizzes(type_question):
+    quizzes = []
     for doc in db.collection("quizzes").where("type", "==", type_question).stream():
         question_data = doc.to_dict()
         bonne_reponse = question_data['propositions'][0]  # Supposer que la première réponse est la bonne
@@ -137,8 +137,8 @@ def recuperer_questions(type_question):
 
         # Identifier l'index de la bonne réponse après mélange
         question_data['bonne_reponse_index'] = question_data['propositions'].index(bonne_reponse)
-        questions.append(question_data)
-    return questions
+        quizzes.append(question_data)
+    return quizzes
 
 
 MODES_DE_JEU = ["cyber", "Mode 2", "Mode 3", "Mode 4", "Mode 5"]
@@ -157,8 +157,8 @@ def mode_solo():
         afficher_question_et_reponse()
 
 def demarrer_quiz(mode_choisi):
-    st.session_state['questions'] = recuperer_questions(mode_choisi)
-    random.shuffle(st.session_state['questions'])
+    st.session_state['quizzes'] = recuperer_quizzes(mode_choisi)
+    random.shuffle(st.session_state['quizzes'])
     st.session_state['current_question_index'] = 0
     st.session_state['score'] = 0
     st.session_state['en_jeu'] = True
@@ -168,7 +168,7 @@ def demarrer_quiz(mode_choisi):
 
 def afficher_question_et_reponse():
     current_index = st.session_state['current_question_index']
-    question = st.session_state['questions'][current_index]
+    question = st.session_state['quizzes'][current_index]
     st.subheader(f"Question {current_index + 1}: {question['question']}")
 
     if 'time_left' not in st.session_state or st.session_state['time_left'] <= 0:
@@ -217,7 +217,7 @@ def afficher_bonne_reponse_et_bouton_suivant(question):
         passer_a_la_question_suivante()
 
 def passer_a_la_question_suivante():
-    if st.session_state['current_question_index'] < len(st.session_state['questions']) - 1:
+    if st.session_state['current_question_index'] < len(st.session_state['quizzes']) - 1:
         st.session_state['current_question_index'] += 1
         st.session_state['reponse_validee'] = False
         st.session_state['time_left'] = 30
@@ -233,7 +233,7 @@ def terminer_quiz():
     st.session_state['en_jeu'] = False
 
 def reset_quiz_state():
-    for key in ['questions', 'current_question_index', 'score', 'en_jeu', 'reponse_validee', 'start_time', 'time_left']:
+    for key in ['quizzes', 'current_question_index', 'score', 'en_jeu', 'reponse_validee', 'start_time', 'time_left']:
         if key in st.session_state:
             del st.session_state[key]
 
@@ -279,16 +279,16 @@ def create_duel_session():
         session_id = create_new_session(session_name, quiz_choice)
         st.write(f"Session '{session_name}' créée! ID: {session_id}")
 
-# Fonction pour récupérer les questions
-def get_questions(category):
-    # Remplacer cette fonction par la logique Firestore pour récupérer les questions
+# Fonction pour récupérer les quizzes
+def get_quizzes(category):
+    # Remplacer cette fonction par la logique Firestore pour récupérer les quizzes
     return ["Question 1", "Question 2", "Question 3"]
 
 # Fonction pour exécuter le quiz
-def run_quiz(questions):
-    for question in questions:
+def run_quiz(quizzes):
+    for question in quizzes:
         st.write(question)
-        # Ajouter ici la logique pour afficher les questions et enregistrer les réponses
+        # Ajouter ici la logique pour afficher les quizzes et enregistrer les réponses
 
 def send_message(username, message):
     """Envoie un message au chat."""
