@@ -182,7 +182,7 @@ def afficher_question_et_reponse():
         if question['points'] == 5:
             choix = st.text_input("Votre réponse :", key=f"reponse_{current_index}")
         else:
-            choix = st.radio("Choisissez votre réponse :", question['reponse'], key=f"reponse_{current_index}")
+            choix = st.radio("Choisissez votre réponse :", question['propositions'], key=f"reponse_{current_index}")
 
         if st.button("Valider la réponse", key=f"valider_{current_index}"):
             st.session_state['reponse_validee'] = True
@@ -203,7 +203,7 @@ def afficher_question_et_reponse():
         passer_a_la_question_suivante()
 
 def verifier_et_afficher_reponse(question, choix):
-    bonne_reponse = question['reponse'][question['bonne_reponse_index']]
+    bonne_reponse = question['propositions'][question['bonne_reponse_index']]
     if choix.strip().lower() == bonne_reponse.lower():
         st.session_state['score'] += question['points']
         st.success(f"Réponse correcte! {bonne_reponse}")
@@ -211,7 +211,7 @@ def verifier_et_afficher_reponse(question, choix):
         st.error(f"Mauvaise réponse, la bonne réponse était : {bonne_reponse}")
 
 def afficher_bonne_reponse_et_bouton_suivant(question):
-    bonne_reponse = question['reponse'][question['bonne_reponse_index']]
+    bonne_reponse = question['propositions'][question['bonne_reponse_index']]
     st.write(f"La bonne réponse était : {bonne_reponse}")
     if st.button("Question suivante", key=f"suivante_{st.session_state['current_question_index']}"):
         passer_a_la_question_suivante()
