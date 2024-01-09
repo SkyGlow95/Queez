@@ -1,7 +1,7 @@
 credentials:
   usernames:
     jsmith:
-      email: jsmith@gmail.com
+      email: dcs.yann@gmail.com
       name: John Smith
       password: $2b$12$m2WOBT7bYhJ0GETu2/OCRePiGD19dEom6ec2XF3iN/vJp5Ohbl4UC
     rbriggs:
