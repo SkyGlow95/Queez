@@ -3,6 +3,32 @@ from firebase_admin import credentials, firestore, initialize_app, get_app, App
 import uuid
 import hashlib
 import random
+import streamlit_authenticator as stauth
+import yaml
+from yaml.loader import SafeLoader
+with open('../config.yaml') as file:
+    config = yaml.load(file, Loader=SafeLoader)
+
+authenticator = Authenticate(
+    config['credentials'],
+    config['cookie']['name'],
+    config['cookie']['key'],
+    config['cookie']['expiry_days'],
+    config['preauthorized']
+)
+
+name, authentication_status, username = authenticator.login('Login', 'main')
+
+hashed_passwords = stauth.Hasher(['abc', 'def']).generate()
+
+if authentication_status:
+    authenticator.logout('Logout', 'main')
+    st.write(f'Welcome *{name}*')
+    st.title('Some content')
+elif authentication_status == False:
+    st.error('Username/password is incorrect')
+elif authentication_status == None:
+    st.warning('Please enter your username and password')
 
 # Initialisation de Firestore
 def init_firestore():
