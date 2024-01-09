@@ -3,7 +3,7 @@ credentials:
     jsmith:
       email: jsmith@gmail.com
       name: John Smith
-      password: # Placeholder for hashed password of 'abc'
+      password: abc # Placeholder for hashed password of 'abc'
     rbriggs:
       email: rbriggs@gmail.com
       name: Rebecca Briggs
