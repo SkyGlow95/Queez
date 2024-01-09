@@ -130,7 +130,7 @@ def mettre_a_jour_classement(score, temps_total):
 
 def recuperer_questions(type_question):
     questions = []
-    for doc in db.collection("questions").where("type", "==", type_question).stream():
+    for doc in db.collection("quizzes").where("type", "==", type_question).stream():
         question_data = doc.to_dict()
         bonne_reponse = question_data['reponse'][0]  # Supposer que la première réponse est la bonne
         random.shuffle(question_data['reponse'])  # Mélanger les réponses
