@@ -1,27 +1,13 @@
-def double_hash_passwords(passwords):
-    hashed_passwords = []
-    for password in passwords:
-        # Premier hachage
-        hash1 = hashlib.sha256(password.encode()).hexdigest()
-        # Deuxième hachage
-        hash2 = hashlib.sha256(hash1.encode()).hexdigest()
-        hashed_passwords.append(hash2)
-    return hashed_passwords
-
-# Remplacez 'abc' et 'def' par vos mots de passe réels
-double_hashed_passwords = double_hash_passwords(['abc', 'def'])
-print(double_hashed_passwords)
-
 credentials:
   usernames:
     jsmith:
       email: jsmith@gmail.com
       name: John Smith
-      password: [double_hashed_password_for_abc]
+      password:
     rbriggs:
       email: rbriggs@gmail.com
       name: Rebecca Briggs
-      password: [double_hashed_password_for_def]
+      password:
 cookie:
   expiry_days: 30
   key: some_signature_key # Must be string
