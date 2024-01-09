@@ -57,51 +57,6 @@ def init_firestore():
 # Initialise Firestore
 db = init_firestore()
 
-def register_user(pseudo):
-    user_id = str(uuid.uuid4())
-    user_data = {"pseudo": pseudo, "user_id": user_id}
-    db.collection("users").document(user_id).set(user_data)
-    return user_id
-
-def create_or_verify_user(username, password):
-    users_ref = db.collection("users")
-    user_doc = users_ref.document(username).get()
-    hashed_password = hashlib.sha256(password.encode()).hexdigest()
-
-    if user_doc.exists:
-        user_data = user_doc.to_dict()
-        if user_data['password'] == hashed_password:
-            return True, "Connexion réussie"
-        else:
-            return False, "Mot de passe incorrect"
-    else:
-        users_ref.document(username).set({"password": hashed_password})
-        return True, "Compte créé"
-    
-def login_interface():
-    st.sidebar.title("Connexion")
-    username = st.sidebar.text_input("Nom d'utilisateur")
-    password = st.sidebar.text_input("Mot de passe", type='password')
-    login_button = st.sidebar.button("Connexion / Inscription")
-
-    if login_button:
-        success, message = create_or_verify_user(username, password)
-        if success:
-            st.session_state['user_pseudo'] = username
-            st.rerun()  # Rafraîchit la page après la mise à jour de session_state
-        else:
-            st.sidebar.error(message)
-
-# Fonction pour afficher les sessions actives
-def display_active_sessions():
-    sessions = db.collection("sessions").where("state", "==", "waiting").stream()
-    for session in sessions:
-        session_info = session.to_dict()
-        session_name = session_info.get("name", "Session Inconnue")
-        st.write(f"Session : {session_name}")
-        if st.button(f"Rejoindre la session {session_name}"):
-            join_session(session.id)
-
 # Fonction pour rejoindre une session
 def join_session(session_id):
     # Ajouter la logique pour rejoindre une session
