@@ -3,11 +3,11 @@ credentials:
     jsmith:
       email: jsmith@gmail.com
       name: John Smith
-      password: abc # Placeholder for hashed password of 'abc'
+      password: [double_hashed_password_for_abc]
     rbriggs:
       email: rbriggs@gmail.com
       name: Rebecca Briggs
-      password: # Placeholder for hashed password of 'def'
+      password: [double_hashed_password_for_def]
 cookie:
   expiry_days: 30
   key: some_signature_key # Must be string
