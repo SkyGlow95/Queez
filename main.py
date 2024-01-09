@@ -3,8 +3,6 @@ from firebase_admin import credentials, firestore, initialize_app, get_app, App
 import uuid
 import hashlib
 import random
-import smtplib
-from email.mime.text import MIMEText
 
 st.set_page_config(
     page_title="Queez",
