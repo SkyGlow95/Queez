@@ -179,7 +179,7 @@ def afficher_question_et_reponse():
     st.success(f"Score actuel : {st.session_state['score']}")
 
     if not st.session_state.get('reponse_validee', False):
-        if question['point'] == 5:
+        if question['points'] == 5:
             choix = st.text_input("Votre réponse :", key=f"reponse_{current_index}")
         else:
             choix = st.radio("Choisissez votre réponse :", question['reponse'], key=f"reponse_{current_index}")
@@ -205,7 +205,7 @@ def afficher_question_et_reponse():
 def verifier_et_afficher_reponse(question, choix):
     bonne_reponse = question['reponse'][question['bonne_reponse_index']]
     if choix.strip().lower() == bonne_reponse.lower():
-        st.session_state['score'] += question['point']
+        st.session_state['score'] += question['points']
         st.success(f"Réponse correcte! {bonne_reponse}")
     else:
         st.error(f"Mauvaise réponse, la bonne réponse était : {bonne_reponse}")
