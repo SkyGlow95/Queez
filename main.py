@@ -301,16 +301,12 @@ def display_chat():
 
 def main():
     st.title("Queez")
-
-    if 'user_pseudo' not in st.session_state:
-        login_interface()
-    else:
-        st.write(f"Bienvenue, {st.session_state['user_pseudo']}")
-        mode = st.sidebar.selectbox("Choisir le mode de jeu", ["Solo", "Duel"])
-        if mode == "Solo":
-            mode_solo()
-        elif mode == "Duel":
-            mode_duel()
+    st.write(f"Bienvenue, {st.session_state['user_pseudo']}")
+    mode = st.sidebar.selectbox("Choisir le mode de jeu", ["Solo", "Duel"])
+    if mode == "Solo":
+        mode_solo()
+    elif mode == "Duel":
+        mode_duel()
 
 
 if __name__ == "__main__":
