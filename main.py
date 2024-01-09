@@ -30,15 +30,17 @@ authenticator = stauth.Authenticate(
     config['preauthorized']
 )
 
+authenticator.login('Login', 'main')
+
 hashed_passwords = stauth.Hasher(['abc', 'def']).generate()
 
-if authentication_status:
-    authenticator.logout('Logout', 'main')
-    st.write(f'Welcome *{name}*')
+if st.session_state["authentication_status"]:
+    authenticator.logout('Logout', 'main', key='unique_key')
+    st.write(f'Welcome *{st.session_state["name"]}*')
     st.title('Some content')
-elif authentication_status == False:
+elif st.session_state["authentication_status"] is False:
     st.error('Username/password is incorrect')
-elif authentication_status == None:
+elif st.session_state["authentication_status"] is None:
     st.warning('Please enter your username and password')
 
 # Initialisation de Firestore
@@ -298,7 +300,6 @@ def display_chat():
             st.write(f"**{message_data['username']}**: {message_data['message']}")
 
 def main():
-    authenticator.login('Login', 'main')
     st.title("Queez")
     st.write("Bienvenue")
     mode = st.sidebar.selectbox("Choisir le mode de jeu", ["Solo", "Duel"])
