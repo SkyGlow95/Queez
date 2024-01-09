@@ -22,14 +22,6 @@ from yaml.loader import SafeLoader
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 
-authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days'],
-    config['preauthorized']
-)
-
 def double_hash_passwords(passwords):
     hashed_passwords = []
     for password in passwords:
@@ -44,16 +36,27 @@ def double_hash_passwords(passwords):
 double_hashed_passwords = double_hash_passwords(['abc', 'def'])
 print(double_hashed_passwords)
 
+authenticator = stauth.Authenticate(
+    config['credentials'],
+    config['cookie']['name'],
+    config['cookie']['key'],
+    config['cookie']['expiry_days'],
+    config['preauthorized']
+)
+
+# Créer un widget de connexion
 name, authentication_status, username = authenticator.login('Login', 'main')
 
-if st.session_state["authentication_status"]:
-    authenticator.logout('Logout', 'main', key='unique_key')
-    st.write(f'Welcome *{st.session_state["name"]}*')
-    st.title('Some content')
-elif st.session_state["authentication_status"] is False:
-    st.error('Username/password is incorrect')
-elif st.session_state["authentication_status"] is None:
-    st.warning('Please enter your username and password')
+# Gérer le statut d'authentification
+if authentication_status:
+    st.session_state['name'] = name  # Stocker le nom dans l'état de session
+    authenticator.logout('Logout', 'main', key='unique_logout_key')
+    st.write(f'Bienvenue {name}')
+    # Ici, vous pouvez ajouter le contenu de votre application personnelle
+elif authentication_status == False:
+    st.error('Nom d’utilisateur/mot de passe incorrect')
+elif authentication_status is None:
+    st.warning('Veuillez entrer votre nom d’utilisateur et votre mot de passe')
 
 # Initialisation de Firestore
 def init_firestore():
