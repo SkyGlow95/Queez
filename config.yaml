@@ -3,11 +3,11 @@ credentials:
     jsmith:
       email: jsmith@gmail.com
       name: John Smith
-      password:
+      password: $2b$12$m2WOBT7bYhJ0GETu2/OCRePiGD19dEom6ec2XF3iN/vJp5Ohbl4UC
     rbriggs:
       email: rbriggs@gmail.com
       name: Rebecca Briggs
-      password:
+      password: $2b$12$LcuqkGmIIE1iw2DmtL6q4Odf3BUZupmBeYqyFxgBHyuzmLRnfPera
 cookie:
   expiry_days: 30
   key: some_signature_key # Must be string
