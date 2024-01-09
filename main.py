@@ -132,11 +132,11 @@ def recuperer_questions(type_question):
     questions = []
     for doc in db.collection("quizzes").where("type", "==", type_question).stream():
         question_data = doc.to_dict()
-        bonne_reponse = question_data['propositions'][0]  # Supposer que la première réponse est la bonne
+        bonne_propositions = question_data['propositions'][0]  # Supposer que la première réponse est la bonne
         random.shuffle(question_data['propositions'])  # Mélanger les réponses
 
         # Identifier l'index de la bonne réponse après mélange
-        question_data['bonne_reponse_index'] = question_data['propositions'].index(bonne_reponse)
+        question_data['bonne_propositions_index'] = question_data['propositions'].index(bonne_propositions)
         questions.append(question_data)
     return questions
 
@@ -154,7 +154,7 @@ def mode_solo():
             demarrer_quiz(mode_choisi)
 
     if st.session_state.get('en_jeu', False):
-        afficher_question_et_reponse()
+        afficher_question_et_propositions()
 
 def demarrer_quiz(mode_choisi):
     st.session_state['questions'] = recuperer_questions(mode_choisi)
@@ -162,11 +162,11 @@ def demarrer_quiz(mode_choisi):
     st.session_state['current_question_index'] = 0
     st.session_state['score'] = 0
     st.session_state['en_jeu'] = True
-    st.session_state['reponse_validee'] = False
+    st.session_state['propositions_validee'] = False
     st.session_state['start_time'] = time.time()  # Enregistrer le début du quiz
     st.rerun()
 
-def afficher_question_et_reponse():
+def afficher_question_et_propositions():
     current_index = st.session_state['current_question_index']
     question = st.session_state['questions'][current_index]
     st.subheader(f"Question {current_index + 1}: {question['question']}")
@@ -178,48 +178,48 @@ def afficher_question_et_reponse():
     time_container.write(f"Temps restant: {st.session_state['time_left']} secondes")
     st.success(f"Score actuel : {st.session_state['score']}")
 
-    if not st.session_state.get('reponse_validee', False):
+    if not st.session_state.get('propositions_validee', False):
         if question['points'] == 5:
             choix = st.text_input("Votre réponse :", key=f"propositions_{current_index}")
         else:
-            choix = st.radio("Choisissez votre réponse :", question['propositions'], key=f"reponse_{current_index}")
+            choix = st.radio("Choisissez votre réponse :", question['propositions'], key=f"propositions_{current_index}")
 
         if st.button("Valider la réponse", key=f"valider_{current_index}"):
-            st.session_state['reponse_validee'] = True
-            verifier_et_afficher_reponse(question, choix)
+            st.session_state['propositions_validee'] = True
+            verifier_et_afficher_propositions(question, choix)
     else:
-        afficher_bonne_reponse_et_bouton_suivant(question)
+        afficher_bonne_propositions_et_bouton_suivant(question)
 
     if st.session_state['time_left'] > 1:
         time.sleep(1)
         st.session_state['time_left'] -= 1
         st.rerun()
     if st.session_state['time_left'] == 1:
-        st.session_state['reponse_validee'] = True
+        st.session_state['propositions_validee'] = True
         passer_a_la_question_suivante()
         st.rerun()
     else:
-        st.session_state['reponse_validee'] = True
+        st.session_state['propositions_validee'] = True
         passer_a_la_question_suivante()
 
-def verifier_et_afficher_reponse(question, choix):
-    bonne_reponse = question['propositions'][question['bonne_reponse_index']]
-    if choix.strip().lower() == bonne_reponse.lower():
+def verifier_et_afficher_propositions(question, choix):
+    bonne_propositions = question['propositions'][question['bonne_propositions_index']]
+    if choix.strip().lower() == bonne_propositions.lower():
         st.session_state['score'] += question['points']
-        st.success(f"Réponse correcte! {bonne_reponse}")
+        st.success(f"Réponse correcte! {bonne_propositions}")
     else:
-        st.error(f"Mauvaise réponse, la bonne réponse était : {bonne_reponse}")
+        st.error(f"Mauvaise réponse, la bonne réponse était : {bonne_propositions}")
 
-def afficher_bonne_reponse_et_bouton_suivant(question):
-    bonne_reponse = question['propositions'][question['bonne_reponse_index']]
-    st.write(f"La bonne réponse était : {bonne_reponse}")
+def afficher_bonne_propositions_et_bouton_suivant(question):
+    bonne_propositions = question['propositions'][question['bonne_propositions_index']]
+    st.write(f"La bonne réponse était : {bonne_propositions}")
     if st.button("Question suivante", key=f"suivante_{st.session_state['current_question_index']}"):
         passer_a_la_question_suivante()
 
 def passer_a_la_question_suivante():
     if st.session_state['current_question_index'] < len(st.session_state['questions']) - 1:
         st.session_state['current_question_index'] += 1
-        st.session_state['reponse_validee'] = False
+        st.session_state['propositions_validee'] = False
         st.session_state['time_left'] = 30
     else:
         terminer_quiz()
@@ -233,7 +233,7 @@ def terminer_quiz():
     st.session_state['en_jeu'] = False
 
 def reset_quiz_state():
-    for key in ['questions', 'current_question_index', 'score', 'en_jeu', 'reponse_validee', 'start_time', 'time_left']:
+    for key in ['questions', 'current_question_index', 'score', 'en_jeu', 'propositions_validee', 'start_time', 'time_left']:
         if key in st.session_state:
             del st.session_state[key]
 
