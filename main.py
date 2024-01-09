@@ -30,8 +30,6 @@ authenticator = stauth.Authenticate(
     config['preauthorized']
 )
 
-name, authentication_status, username = authenticator.login('Login', 'main')
-
 hashed_passwords = stauth.Hasher(['abc', 'def']).generate()
 
 if authentication_status:
@@ -300,6 +298,7 @@ def display_chat():
             st.write(f"**{message_data['username']}**: {message_data['message']}")
 
 def main():
+    authenticator.login('Login', 'main')
     st.title("Queez")
     st.write("Bienvenue")
     mode = st.sidebar.selectbox("Choisir le mode de jeu", ["Solo", "Duel"])
