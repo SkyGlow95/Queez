@@ -301,7 +301,7 @@ def display_chat():
 
 def main():
     st.title("Queez")
-    st.write(f"Bienvenue, {st.session_state['user_pseudo']}")
+    st.write("Bienvenue")
     mode = st.sidebar.selectbox("Choisir le mode de jeu", ["Solo", "Duel"])
     if mode == "Solo":
         mode_solo()
