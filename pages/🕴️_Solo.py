@@ -134,3 +134,5 @@ def reset_quiz_state():
     for key in ['questions', 'current_question_index', 'score', 'en_jeu', 'propositions_validee', 'start_time', 'time_left']:
         if key in st.session_state:
             del st.session_state[key]
+
+mode_solo()
