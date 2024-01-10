@@ -1,3 +1,4 @@
+import streamlit as st
 
 def mettre_a_jour_classement(score, temps_total):
     # Votre logique pour mettre à jour le classement dans Firestore
