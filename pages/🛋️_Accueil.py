@@ -16,7 +16,15 @@ st.set_page_config(
 
 db = init_firestore()
 
-st.write('Bienvenue')
+if authentication_status:
+    st.session_state['name'] = name  # Stocker le nom dans l'état de session
+    authenticator.logout('Logout', 'main', key='unique_logout_key')
+    st.write(f'Bienvenue {name}')
+    # Ici, vous pouvez ajouter le contenu de votre application personnelle
+elif authentication_status == False:
+    st.error('Nom d’utilisateur/mot de passe incorrect')
+elif authentication_status is None:
+    st.warning('Veuillez entrer votre nom d’utilisateur et votre mot de passe')
 
 def get_rankings():
     try:
