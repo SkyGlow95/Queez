@@ -3,8 +3,7 @@ from firebase_admin import credentials, firestore, initialize_app, get_app, App
 from main import init_firestore
 import streamlit_authenticator as stauth
 import auth
-import uuid
-import random
+import random, time, uuid
 
 st.set_page_config(
     page_title="Queez",
