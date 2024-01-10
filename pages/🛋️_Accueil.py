@@ -1,5 +1,6 @@
 import streamlit as st
 from firebase_admin import credentials, firestore, initialize_app, get_app, App
+from main import init_firestore
 
 st.set_page_config(
     page_title="Queez",
@@ -12,6 +13,8 @@ st.set_page_config(
         'About': "# This is a header. This is an *extremely* cool app!"
     }
 )
+
+db = init_firestore()
 
 st.write('Bienvenue')
 
