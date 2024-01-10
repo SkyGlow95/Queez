@@ -20,7 +20,7 @@ db = init_firestore()
 
 if auth.authentication_status:
     st.session_state['name'] = auth.name  # Stocker le nom dans l'état de session
-    authenticator.logout('Logout', 'main', key='unique_logout_key')
+    auth.authenticator.logout('Logout', 'main', key='unique_logout_key')
     st.write(f'Bienvenue {name}')
     # Ici, vous pouvez ajouter le contenu de votre application personnelle
 elif auth.authentication_status == False:
