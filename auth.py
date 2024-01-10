@@ -15,7 +15,8 @@ authenticator = stauth.Authenticate(
 )
 
 # Créer un widget de connexion
-name, authentication_status, username = authenticator.login('Login', 'main')
+def connect():
+    name, authentication_status, username = authenticator.login('Login', 'main')
 
 try:
     if authenticator.register_user('Register user', preauthorization=False):
