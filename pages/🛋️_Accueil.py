@@ -45,3 +45,6 @@ def display_rankings():
                 st.write("Voir plus de classements...")
                 for index, (pseudo, score) in enumerate(rankings[10:], start=11):
                     st.text(f"{index}. {pseudo} - {score} points")
+
+get_ranking()
+display_ranking()
