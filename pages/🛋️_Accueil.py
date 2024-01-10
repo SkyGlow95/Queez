@@ -1,6 +1,7 @@
 import streamlit as st
 from firebase_admin import credentials, firestore, initialize_app, get_app, App
 from main import init_firestore
+import streamlit_authenticator as stauth
 
 st.set_page_config(
     page_title="Queez",
