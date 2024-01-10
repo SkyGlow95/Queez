@@ -18,7 +18,7 @@ st.set_page_config(
 
 db = init_firestore()
 
-auth.connect()
+auth.name, auth.authentication_status, auth.username = auth.authenticator.login('Login', 'main')
 
 if auth.authentication_status:
     st.session_state['name'] = auth.name  # Stocker le nom dans l'état de session
