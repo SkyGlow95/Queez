@@ -17,6 +17,14 @@ st.set_page_config(
 
 db = init_firestore()
 
+authenticator = stauth.Authenticate(
+    config['credentials'],
+    config['cookie']['name'],
+    config['cookie']['key'],
+    config['cookie']['expiry_days'],
+    config['preauthorized']
+)
+
 name, authentication_status, username = authenticator.login('Login', 'main')
 
 if authentication_status:
