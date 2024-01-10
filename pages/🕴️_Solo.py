@@ -136,7 +136,7 @@ def terminer_quiz():
     st.session_state['en_jeu'] = False
 
 def reset_quiz_state():
-    for key in ['questions', 'current_question_index', 'score', 'en_jeu', 'propositions_validee', 'start_time', 'time_left']:
+    for key in ['questions', 'current_question_index', 'score', 'en_jeu', 'propositions_validee', 'start_time', 'time_left', 'mode':
         if key in st.session_state:
             del st.session_state[key]
 
