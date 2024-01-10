@@ -48,8 +48,8 @@ def display_rankings():
         
         # Créer un tableau de classement pour les 10 premiers
         top_ranking_markdown = ""
-        for index, (pseudo, score) in enumerate(top_rankings, start=1):
-            top_ranking_markdown += f"{index}. **{pseudo}** - {score} points\n"
+        for index, (user_id, score, temps_total, mode_de_jeu) in enumerate(top_rankings, start=1):
+            top_ranking_markdown += f"{index}. **{user_id}** - {score} points\n"
         
         # Afficher le classement des 10 premiers
         st.markdown(top_ranking_markdown)
@@ -58,8 +58,8 @@ def display_rankings():
         if len(rankings) > 10:
             with st.container():
                 st.write("Voir plus de classements...")
-                for index, (pseudo, score) in enumerate(rankings[10:], start=11):
-                    st.text(f"{index}. {pseudo} - {score} points")
+                for index, (user_id, score) in enumerate(rankings[10:], start=11):
+                    st.text(f"{index}. {user_id} - {score} points")
 
 get_rankings()
 display_rankings()
