@@ -1,5 +1,8 @@
 import streamlit as st
-from auth import init_firestore
+from firebase_admin import credentials, firestore, initialize_app, get_app, App
+from main import init_firestore
+import streamlit_authenticator as stauth
+import auth
 
 def mettre_a_jour_classement(score, temps_total):
     # Votre logique pour mettre à jour le classement dans Firestore
