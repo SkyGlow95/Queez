@@ -1,6 +1,18 @@
 import streamlit as st
 from firebase_admin import credentials, firestore, initialize_app, get_app, App
 
+st.set_page_config(
+    page_title="Queez",
+    page_icon="🧊",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'Get Help': 'https://www.extremelycoolapp.com/help',
+        'Report a bug': "https://www.extremelycoolapp.com/bug",
+        'About': "# This is a header. This is an *extremely* cool app!"
+    }
+)
+
 st.write('Bienvenue')
 
 def get_rankings():
