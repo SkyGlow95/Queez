@@ -27,7 +27,7 @@ def display_rankings():
     rankings = get_rankings()
     
     # Définir un expander dans la barre latérale pour le classement
-    with st.sidebar.expender("Classement"):
+    with st.sidebar.expander("Classement"):
         # Limiter l'affichage à 10 entrées
         top_rankings = rankings[:10]
         
