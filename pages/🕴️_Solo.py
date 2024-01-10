@@ -4,6 +4,7 @@ from main import init_firestore
 import streamlit_authenticator as stauth
 import auth
 import uuid
+import random
 
 st.set_page_config(
     page_title="Queez",
