@@ -18,6 +18,8 @@ st.set_page_config(
 
 db = init_firestore()
 
+auth.connect()
+
 if auth.authentication_status:
     st.session_state['name'] = auth.name  # Stocker le nom dans l'état de session
     auth.authenticator.logout('Logout', 'main', key='unique_logout_key')
