@@ -45,8 +45,6 @@ MODES_DE_JEU = ["cyber", "litterature", "science", "geographie", "Extrème"]
 
 def mode_solo():
     st.header("Mode Solo")
-    display_rankings()
-    display_chat()
 
     if 'en_jeu' not in st.session_state or not st.session_state['en_jeu']:
         mode_choisi = st.selectbox("Choisir un type de quiz", MODES_DE_JEU)
