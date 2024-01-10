@@ -4,6 +4,20 @@ from main import init_firestore
 import streamlit_authenticator as stauth
 import auth
 
+st.set_page_config(
+    page_title="Queez",
+    page_icon="🧊",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'Get Help': 'https://www.extremelycoolapp.com/help',
+        'Report a bug': "https://www.extremelycoolapp.com/bug",
+        'About': "# This is a header. This is an *extremely* cool app!"
+    }
+)
+
+db = init_firestore()
+
 def mettre_a_jour_classement(score, temps_total):
     # Votre logique pour mettre à jour le classement dans Firestore
     # Exemple :
