@@ -3,6 +3,7 @@ from firebase_admin import credentials, firestore, initialize_app, get_app, App
 from main import init_firestore
 import streamlit_authenticator as stauth
 import auth
+import uuid
 
 st.set_page_config(
     page_title="Queez",
@@ -18,15 +19,17 @@ st.set_page_config(
 
 db = init_firestore()
 
-def mettre_a_jour_classement(score, temps_total):
-    # Votre logique pour mettre à jour le classement dans Firestore
-    # Exemple :
-    user_id = "identifiant_utilisateur"  # Identifiant unique de l'utilisateur
-    user_doc = db.collection("rank").document(user_id).get()
-    if user_doc.exists:
-        db.collection("rank").document(user_id).update({"score": firestore.Increment(score)})
-    else:
-        db.collection("rank").document(user_id).set({"score": score})
+def mettre_a_jour_classement(score, temps_total, mode_de_jeu):
+    # Générer un ID de document unique
+    document_id = str(uuid.uuid4())
+
+    # Créer un nouveau document avec les informations
+    db.collection("rank").document(document_id).set({
+        "user_id": auth.name,
+        "score": score,
+        "temps_total": temps_total,
+        "mode_de_jeu": mode_de_jeu
+    })
 
 def recuperer_questions(type_question):
     questions = []
@@ -50,6 +53,7 @@ def mode_solo():
         mode_choisi = st.selectbox("Choisir un type de quiz", MODES_DE_JEU)
         if st.button("Commencer le quiz"):
             demarrer_quiz(mode_choisi)
+            st.session_state['mode'] = mode_choisi
 
     if st.session_state.get('en_jeu', False):
         afficher_question_et_propositions()
@@ -124,7 +128,8 @@ def passer_a_la_question_suivante():
 
 def terminer_quiz():
     temps_total = time.time() - st.session_state['start_time']
-    mettre_a_jour_classement(st.session_state['score'], temps_total)
+    mode_de_jeu = st.session_state['mode']
+    mettre_a_jour_classement(st.session_state['score'], temps_total, mode_de_jeu)
     st.success(f"Quiz terminé. Merci d'avoir participé ! Vous avez pris {temps_total:.2f} secondes.")
     st.button("Retour au choix du mode de jeu", on_click=reset_quiz_state)
     time.sleep(10)
