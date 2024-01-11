@@ -93,16 +93,19 @@ def quitter_session_duel():
 
     if id_session:
         session_ref = db.collection("session").document(id_session)
-        session_data = session.to_dict()
-        if session_data['joueur_1'] == nom_utilisateur:
-            session_ref.update({"joueur_1": ""})
-        elif session_data['joueur_2'] == nom_utilisateur:
-            session_ref.update({"joueur_2": ""})
+        session = session_ref.get()
+        
+        if session.exists:
+            session_data = session.to_dict()
+            if session_data['joueur_1'] == nom_utilisateur:
+                session_ref.update({"joueur_1": ""})
+            elif session_data['joueur_2'] == nom_utilisateur:
+                session_ref.update({"joueur_2": ""})
 
-        session = session_ref.get()  # Récupérer à nouveau les données mises à jour
-        session_data = session.to_dict()
-        if session_data['joueur_1'] == "" and session_data['joueur_2'] == "":
-            session_ref.delete()  # Supprimer la session si elle est vide
+            session = session_ref.get()  # Récupérer à nouveau les données mises à jour
+            session_data = session.to_dict()
+            if session_data['joueur_1'] == "" and session_data['joueur_2'] == "":
+                session_ref.delete()  # Supprimer la session si elle est vide
 
 if st.button("Quitter la session"):
-    quitter_session_duel()  # Plus besoin de passer id_session et nom_utilisateur
+    quitter_session_duel()
