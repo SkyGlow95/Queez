@@ -20,6 +20,12 @@ db = init_firestore()
 
 auth.name, auth.authentication_status, auth.username = auth.authenticator.login('Login', 'main')
 
+try:
+    if authenticator.register_user('Register user', preauthorization=False):
+        st.success('User registered successfully')
+except Exception as e:
+    st.error(e)
+
 if auth.authentication_status:
     st.session_state['name'] = auth.name  # Stocker le nom dans l'état de session
     auth.authenticator.logout('Logout', 'main', key='unique_logout_key')
