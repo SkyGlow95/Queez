@@ -31,17 +31,13 @@ def afficher_sessions_duel():
 
 # Affichage dans la barre latérale pour créer une session
 if 'session_creee' not in st.session_state:
-    mode_choisi = st.sidebar.selectbox("Choisir le mode de jeu", ["cyber", "litterature", "geographie", "science", "Extrème"])
-    nom_session = st.sidebar.text_input("Nom de la session")
-    if st.sidebar.button("Créer une session Duel"):
-        nom_session = st.sidebar.text_input("Nom de la session", key="nom_session_duel")
+    mode_choisi = st.sidebar.selectbox("Choisir le mode de jeu", ["cyber", "litterature", "geographie", "science", "Extrème"], key="mode_choisi_duel")
+    nom_session = st.sidebar.text_input("Nom de la session", key="nom_session_duel")
+    if st.sidebar.button("Créer une session Duel", key="creer_session_duel"):
         nom_utilisateur = auth.name  # Assurez-vous que auth.name est correctement défini
-        mode_de_jeu = st.sidebar.selectbox("Choisir le mode de jeu", ["cyber", "litterature", "science", "geographie", "Extrème"])
-
-        if st.sidebar.button("Créer une session Duel"):
-            creer_session_duel(nom_session, nom_utilisateur, mode_de_jeu)
-            st.session_state['session_creee'] = True
-            st.sidebar.write("Session créée avec succès.")
+        creer_session_duel(nom_session, nom_utilisateur, mode_choisi)
+        st.session_state['session_creee'] = True
+        st.sidebar.write("Session créée avec succès.")
 
 # Affichage des sessions disponibles pour rejoindre
 if 'session_rejointe' not in st.session_state:
