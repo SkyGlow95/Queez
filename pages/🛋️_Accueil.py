@@ -15,7 +15,7 @@ st.set_page_config(
     }
 )
 
-db = init_firestore()
+db = auth.init_firestore()
 
 auth.name, auth.authentication_status, auth.username = auth.authenticator.login('Login', 'main')
 
