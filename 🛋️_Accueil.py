@@ -56,25 +56,38 @@ def get_rankings():
 def display_rankings():
     rankings = get_rankings()
     
-    # Définir un expander dans la barre latérale pour le classement
     with st.sidebar.expander("Classement"):
-        # Limiter l'affichage à 10 entrées
-        top_rankings = rankings[:10]
-        
-        # Créer un tableau de classement pour les 10 premiers
-        top_ranking_markdown = ""
-        for index, (user_id, score, temps_total, mode_de_jeu) in enumerate(top_rankings, start=1):
-            top_ranking_markdown += f"{index}. **{user_id}** - {score} points\n"
-        
-        # Afficher le classement des 10 premiers
-        st.markdown(top_ranking_markdown)
+        # Créer un tableau de classement pour chaque mode de jeu
+        for mode_de_jeu, mode_rankings in rankings.items():
+            st.markdown(f"### Classement pour {mode_de_jeu}")
+            
+            # Limiter l'affichage à 10 entrées par mode de jeu
+            top_rankings = mode_rankings[:10]
 
-        # Si il y a plus que 10 classements, permettre de défiler pour voir les autres
-        if len(rankings) > 10:
-            with st.container():
-                st.write("Voir plus de classements...")
-                for index, (user_id, score) in enumerate(rankings[10:], start=11):
-                    st.text(f"{index}. {user_id} - {score} points")
+            # Créer un tableau de classement pour les 10 premiers
+            top_ranking_markdown = ""
+            for index, rank in enumerate(top_rankings, start=1):
+                user_id = rank.get("user_id", "Inconnu")
+                score = rank.get("score", 0)
+                temps_total = rank.get("temps_total", 0)
+                
+                # Convertir le temps total en minutes et secondes
+                minutes, seconds = divmod(temps_total, 60)
+                time_str = f"{int(minutes)}m {seconds:.2f}s"
+
+                top_ranking_markdown += f"{index}. **{user_id}** - {score} points - {time_str}\n"
+
+            # Afficher le classement des 10 premiers
+            st.markdown(top_ranking_markdown)
+
+            # Si il y a plus que 10 classements, permettre de défiler pour voir les autres
+            if len(mode_rankings) > 10:
+                with st.container():
+                    st.write("Voir plus de classements...")
+                    for index, rank in enumerate(mode_rankings[10:], start=11):
+                        user_id = rank.get("user_id", "Inconnu")
+                        score = rank.get("score", 0)
+                        st.text(f"{index}. {user_id} - {score} points")
 
 get_rankings()
 display_rankings()
