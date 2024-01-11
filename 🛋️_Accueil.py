@@ -47,51 +47,34 @@ elif auth.authentication_status is None:
 
 def get_rankings():
     try:
-        rankings_dict = {}
-        rankings_data = db.collection("rank").stream()
-        print("Rankings Data:", rankings_data)
-
-        for rank in rankings_data:
-            rank_dict = rank.to_dict()
-            print("Rank Dict:", rank_dict)
-            mode = rank_dict.get("mode_de_jeu", "Inconnu")
-
-            if mode not in rankings_dict:
-                rankings_dict[mode] = []
-            rankings_dict[mode].append(rank_dict)
-
-        for mode in rankings_dict:
-            rankings_dict[mode].sort(key=lambda x: (-x.get("score", 0), x.get("temps_total", float('inf'))))
-
-        print("Rankings Dict:", rankings_dict)
-        return rankings_dict
+        rankings = db.collection("rank").order_by("score", direction=firestore.Query.DESCENDING).stream()
+        return [(rank.to_dict().get("user_id", "Inconnu"), rank.to_dict().get("score", 0), rank.to_dict().get("mode_de_jeu", "Inconnu"), rank.to_dict().get("temps_total", 0)) for rank in rankings]
     except Exception as e:
-        print("Erreur lors de la récupération des classements:", e)
-        return {}
+        print("Erreur lors de la récupération des classements :", e)
+        return []
 
 def display_rankings():
     rankings = get_rankings()
+    
+    # Définir un expander dans la barre latérale pour le classement
+    with st.sidebar.expander("Classement"):
+        # Limiter l'affichage à 10 entrées
+        top_rankings = rankings[:10]
+        
+        # Créer un tableau de classement pour les 10 premiers
+        top_ranking_markdown = ""
+        for index, (user_id, score, temps_total, mode_de_jeu) in enumerate(top_rankings, start=1):
+            top_ranking_markdown += f"{index}. **{user_id}** - {score} points\n"
+        
+        # Afficher le classement des 10 premiers
+        st.markdown(top_ranking_markdown)
 
-    # Afficher les classements pour chaque mode de jeu
-    for mode, ranking in rankings.items():
-        with st.sidebar.expander(f"Classement - {mode}"):
-            top_ranking_markdown = ""
-            for index, rank in enumerate(ranking[:10], start=1):
-                user_id = rank.get("user_id", "Inconnu")
-                score = rank.get("score", 0)
-                temps_total = rank.get("temps_total", 0)
-                top_ranking_markdown += f"{index}. **{user_id}** - {score} points, Temps: {temps_total:.2f} s\n"
-            st.markdown(top_ranking_markdown)
-
-            # Afficher les classements au-delà du top 10, si nécessaire
-            if len(ranking) > 10:
-                with st.container():
-                    st.write("Voir plus de classements...")
-                    for index, rank in enumerate(ranking[10:], start=11):
-                        user_id = rank.get("user_id", "Inconnu")
-                        score = rank.get("score", 0)
-                        temps_total = rank.get("temps_total", 0)
-                        st.text(f"{index}. {user_id} - {score} points, Temps: {temps_total:.2f} s")
+        # Si il y a plus que 10 classements, permettre de défiler pour voir les autres
+        if len(rankings) > 10:
+            with st.container():
+                st.write("Voir plus de classements...")
+                for index, (user_id, score) in enumerate(rankings[10:], start=11):
+                    st.text(f"{index}. {user_id} - {score} points")
 
 get_rankings()
 display_rankings()
