@@ -26,6 +26,11 @@ if auth.authentication_status:
     st.write(f'Bienvenue {auth.name}')
 elif auth.authentication_status == False:
     st.error('Nom d’utilisateur/mot de passe incorrect')
+    try:
+        if auth.authenticator.register_user('Register user', preauthorization=False):
+            st.success('User registered successfully')
+    except Exception as e:
+        st.error(e)
 elif auth.authentication_status is None:
     try:
         if auth.authenticator.register_user('Register user', preauthorization=False):
