@@ -26,8 +26,16 @@ def rejoindre_session_duel(id_session):
 
 # Fonction pour afficher les sessions disponibles
 def afficher_sessions_duel():
-    # Récupérer les sessions de Firestore et les afficher
-    pass
+    sessions = db.collection("session").stream()  # Récupérer les sessions de Firestore
+    for session in sessions:
+        session_data = session.to_dict()
+        if session_data["session_lancer"] == False and session_data["joueur_2"] == "":
+            st.write(f"Session: {session_data['nom']}, Mode: {session_data['mode_de_jeu']}")
+            if st.button(f"Rejoindre {session_data['nom']}", key=session.id):
+                rejoindre_session_duel(session.id)
+                st.session_state['session_rejointe'] = True
+                st.session_state['current_session'] = session_data
+                st.rerun()
 
 # Affichage dans la barre latérale pour créer une session
 if 'session_creee' not in st.session_state:
