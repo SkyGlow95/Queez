@@ -49,22 +49,24 @@ def get_rankings():
     try:
         rankings_dict = {}
         rankings_data = db.collection("rank").stream()
+        print("Rankings Data:", rankings_data)
 
-        # Construire un dictionnaire de classements par mode de jeu
         for rank in rankings_data:
             rank_dict = rank.to_dict()
+            print("Rank Dict:", rank_dict)
             mode = rank_dict.get("mode_de_jeu", "Inconnu")
+
             if mode not in rankings_dict:
                 rankings_dict[mode] = []
             rankings_dict[mode].append(rank_dict)
 
-        # Trier chaque classement par score, puis par temps total en cas d'égalité
         for mode in rankings_dict:
             rankings_dict[mode].sort(key=lambda x: (-x.get("score", 0), x.get("temps_total", float('inf'))))
 
+        print("Rankings Dict:", rankings_dict)
         return rankings_dict
     except Exception as e:
-        print("Erreur lors de la récupération des classements :", e)
+        print("Erreur lors de la récupération des classements:", e)
         return {}
 
 def display_rankings():
