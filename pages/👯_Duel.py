@@ -1,6 +1,5 @@
-
 import streamlit as st
-# ... autres importations ...
+from main import init_firestore
 
 db = init_firestore()
 
