@@ -84,5 +84,4 @@ if st.button("Fermer la partie"):
     # Supprimer les clés de manière sécurisée sans générer d'erreur si elles n'existent pas
     st.session_state.pop('session_creee', None)
     st.session_state.pop('session_rejointe', None)
-    # Réinitialiser ou mettre à jour d'autres états de session au besoin
-
+    st.rerun()
