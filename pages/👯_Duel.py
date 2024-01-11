@@ -1,5 +1,6 @@
 import streamlit as st
 from main import init_firestore
+import auth
 
 db = init_firestore()
 
