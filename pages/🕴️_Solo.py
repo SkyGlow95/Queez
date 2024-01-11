@@ -52,13 +52,13 @@ def mode_solo():
     if 'en_jeu' not in st.session_state or not st.session_state['en_jeu']:
         mode_choisi = st.selectbox("Choisir un type de quiz", MODES_DE_JEU)
         if st.button("Commencer le quiz"):
-            demarrer_quiz(mode_choisi)
             st.session_state['mode'] = mode_choisi
 
     if st.session_state.get('en_jeu', False):
         afficher_question_et_propositions()
 
 def demarrer_quiz(mode_choisi):
+    st.session_state['mode'] = mode_choisi
     st.session_state['questions'] = recuperer_questions(mode_choisi)
     random.shuffle(st.session_state['questions'])
     st.session_state['current_question_index'] = 0
