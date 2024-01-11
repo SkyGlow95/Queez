@@ -53,6 +53,7 @@ def mode_solo():
         mode_choisi = st.selectbox("Choisir un type de quiz", MODES_DE_JEU)
         if st.button("Commencer le quiz"):
             st.session_state['mode'] = mode_choisi
+            demarrer_quiz(mode_choisi)
 
     if st.session_state.get('en_jeu', False):
         afficher_question_et_propositions()
