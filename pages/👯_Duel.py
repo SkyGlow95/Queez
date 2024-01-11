@@ -20,7 +20,7 @@ def afficher_sessions_duel():
 
 # Affichage dans la barre latérale pour créer une session
 if 'session_creee' not in st.session_state:
-    mode_choisi = st.sidebar.selectbox("Choisir le mode de jeu", ["Solo", "Duel"])
+    mode_choisi = st.sidebar.selectbox("Choisir le mode de jeu", ["cyber", "litterature", "geographie", "science", "Extrème"])
     if mode_choisi == "Duel":
         nom_session = st.sidebar.text_input("Nom de la session")
         if st.sidebar.button("Créer une session Duel"):
