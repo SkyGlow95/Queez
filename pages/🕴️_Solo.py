@@ -33,16 +33,24 @@ def mettre_a_jour_classement(score, temps_total, mode_de_jeu):
 
 def recuperer_questions(type_question):
     questions = []
-    for doc in db.collection("quizzes").where("type", "==", type_question).stream():
-        question_data = doc.to_dict()
-        bonne_propositions = question_data['propositions'][0]  # Supposer que la première réponse est la bonne
-        random.shuffle(question_data['propositions'])  # Mélanger les réponses
+    if type_question == "Extrème":
+        # Si le mode est "Extrème", récupérer les questions de tous les types
+        modes = ["cyber", "litterature", "science", "geographie"]
+        for mode in modes:
+            for doc in db.collection("quizzes").where("type", "==", mode).stream():
+                questions.append(doc.to_dict())
+    else:
+        # Pour les autres modes, récupérer les questions comme d'habitude
+        for doc in db.collection("quizzes").where("type", "==", type_question).stream():
+            questions.append(doc.to_dict())
 
-        # Identifier l'index de la bonne réponse après mélange
-        question_data['bonne_propositions_index'] = question_data['propositions'].index(bonne_propositions)
-        questions.append(question_data)
+    # Mélanger les propositions pour chaque question
+    for question in questions:
+        bonne_propositions = question['propositions'][0]  # Supposer que la première réponse est la bonne
+        random.shuffle(question['propositions'])
+        question['bonne_propositions_index'] = question['propositions'].index(bonne_propositions)
+
     return questions
-
 
 MODES_DE_JEU = ["cyber", "litterature", "science", "geographie", "Extrème"]
 
