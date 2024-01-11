@@ -1,5 +1,16 @@
 import streamlit as st
 import streamlit_authenticator as stauth
+from firebase_admin import credentials, firestore, initialize_app, get_app, App
+
+def init_firestore():
+    try:
+        # Essaye de récupérer l'application Firebase existante
+        app = get_app()
+    except ValueError:
+        # Si elle n'existe pas, initialise une nouvelle application
+        cred = credentials.Certificate("path/to/queez-95147-54dbe09946ae.json")
+        app = initialize_app(cred)
+    return firestore.client(app)
 
 import yaml
 from yaml.loader import SafeLoader
