@@ -16,6 +16,15 @@ st.set_page_config(
 )
 
 db = auth.init_firestore()
+# Initialisez l'état d'authentification si nécessaire
+if 'authentication_status' not in st.session_state:
+    st.session_state['authentication_status'] = None
+
+# Essayez de vous connecter
+try:
+    auth.name, auth.authentication_status, auth.username = auth.authenticator.login('Login', 'main')
+except KeyError as e:
+    st.error("Erreur d'authentification : " + str(e))
 
 auth.name, auth.authentication_status, auth.username = auth.authenticator.login('Login', 'main')
 
