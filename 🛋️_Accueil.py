@@ -24,7 +24,7 @@ if 'authentication_status' not in st.session_state:
 try:
     auth.name, auth.authentication_status, auth.username = auth.authenticator.login('Login', 'main')
 except KeyError as e:
-    st.error("Erreur d'authentification : " + str(e))
+    pass
 
 if auth.authentication_status:
     st.session_state['name'] = auth.name  # Stocker le nom dans l'état de session
