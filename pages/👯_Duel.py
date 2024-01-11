@@ -33,7 +33,7 @@ if 'session_creee' not in st.session_state:
     mode_choisi = st.sidebar.selectbox("Choisir le mode de jeu", ["cyber", "litterature", "geographie", "science", "Extrème"])
     nom_session = st.sidebar.text_input("Nom de la session")
     if st.sidebar.button("Créer une session Duel"):
-        nom_session = st.sidebar.text_input("Nom de la session")
+        nom_session = st.sidebar.text_input("Nom de la session", key="nom_session_duel")
         nom_utilisateur = auth.name  # Assurez-vous que auth.name est correctement défini
         mode_de_jeu = st.sidebar.selectbox("Choisir le mode de jeu", ["cyber", "litterature", "science", "geographie", "Extrème"])
 
