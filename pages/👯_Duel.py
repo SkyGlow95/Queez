@@ -38,8 +38,6 @@ def afficher_sessions_duel():
                 st.session_state['current_session_id'] = session.id  # Stocker l'ID de la session
                 st.rerun()
 
-# Affichage dans la barre latérale pour créer une session
-# Affichage des sessions disponibles pour rejoindre
 if 'session_creee' not in st.session_state and 'session_rejointe' not in st.session_state:
     mode_choisi = st.sidebar.selectbox("Choisir le mode de jeu", ["cyber", "litterature", "geographie", "science", "Extrème"], key="mode_choisi_duel")
     nom_session = st.sidebar.text_input("Nom de la session", key="nom_session_duel")
@@ -47,17 +45,16 @@ if 'session_creee' not in st.session_state and 'session_rejointe' not in st.sess
         nom_utilisateur = auth.name
         creer_session_duel(nom_session, nom_utilisateur, mode_choisi)
         st.session_state['session_creee'] = True
+else:
     afficher_sessions_duel()
 
 if st.session_state.get('session_creee') or st.session_state.get('session_rejointe'):
-    # Assurez-vous que session_data est bien défini dans st.session_state
     if 'current_session' in st.session_state:
         session_data = st.session_state['current_session']
         st.sidebar.write(f"Session: {session_data['nom']}")
         st.sidebar.write(f"Joueur 1: {session_data['joueur_1']}")
         st.sidebar.write(f"Joueur 2: {session_data.get('joueur_2', 'En attente...')}")
         st.sidebar.write(f"Mode: {session_data['mode_de_jeu']}")
-
         if session_data.get('joueur_2') and st.sidebar.button("Lancer la partie"):
             # Logique pour démarrer la partie
             pass
@@ -107,10 +104,11 @@ def quitter_session_duel():
                 session_ref.delete()  # Supprimer la session si elle est vide
 
 if st.session_state.get('session_creee') or st.session_state.get('session_rejointe'):
+    # Afficher les détails de la session et le bouton "Lancer la partie"
+
     if st.button("Quitter la session"):
         quitter_session_duel()
-        # Supprimez les états de session appropriés
         st.session_state.pop('session_creee', None)
         st.session_state.pop('session_rejointe', None)
-        st.session_state.pop('current_session', None)  # Assurez-vous de réinitialiser aussi cet état
+        st.session_state.pop('current_session', None)
         st.rerun()
