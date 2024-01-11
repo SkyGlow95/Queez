@@ -112,3 +112,5 @@ if st.session_state.get('session_creee') or st.session_state.get('session_rejoin
         st.session_state.pop('session_rejointe', None)
         st.session_state.pop('current_session', None)
         st.rerun()
+
+afficher_sessions_duel()
