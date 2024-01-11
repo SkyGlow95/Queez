@@ -47,11 +47,19 @@ elif auth.authentication_status is None:
 
 def get_rankings():
     try:
-        rankings = db.collection("rank").order_by("score", direction=firestore.Query.DESCENDING).stream()
-        return [(rank.to_dict().get("user_id", "Inconnu"), rank.to_dict().get("score", 0), rank.to_dict().get("mode_de_jeu", "Inconnu"), rank.to_dict().get("temps_total", 0)) for rank in rankings]
+        rankings_query = db.collection("rank").order_by("score", direction=firestore.Query.DESCENDING).stream()
+        rankings = {}
+        for rank in rankings_query:
+            rank_data = rank.to_dict()
+            mode_de_jeu = rank_data.get("mode_de_jeu", "Inconnu")
+            if mode_de_jeu not in rankings:
+                rankings[mode_de_jeu] = []
+            rankings[mode_de_jeu].append(rank_data)
+        return rankings
     except Exception as e:
         print("Erreur lors de la récupération des classements :", e)
-        return []
+        return {}
+
 
 def display_rankings():
     rankings = get_rankings()
