@@ -79,11 +79,13 @@ def display_rankings():
 get_rankings()
 display_rankings()
 
-def send_message(username, message):
+def send_message(message):
     """Envoie un message au chat."""
     if message:  # On ne fait rien si le message est vide
+        # Utiliser le nom d'utilisateur authentifié à partir du module auth
+        username = auth.name if auth.authentication_status else "Anonyme"
         db.collection("chats").add({
-            "username": st.session_state['user_pseudo'],
+            "username": username,
             "message": message,
             "timestamp": firestore.SERVER_TIMESTAMP  # Utilise l'horodatage du serveur
         })
@@ -99,11 +101,10 @@ def display_chat():
         
         # Formulaire d'envoi de message
         with st.form(key='chat_form'):
-            username = st.session_state.get('user_pseudo', '')
             message = st.text_input("Message", key='chat_message')
             submit_button = st.form_submit_button("Envoyer")
             if submit_button and message:
-                send_message(username, message)
+                send_message(message)
                 st.rerun()  # Rafraîchir après l'envoi du message
         
         # Afficher les messages
