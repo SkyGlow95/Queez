@@ -35,6 +35,7 @@ def afficher_sessions_duel():
                 rejoindre_session_duel(session.id)
                 st.session_state['session_rejointe'] = True
                 st.session_state['current_session'] = session_data
+                st.session_state['current_session_id'] = session.id  # Stocker l'ID de la session
                 st.rerun()
 
 # Affichage dans la barre latérale pour créer une session
@@ -85,3 +86,23 @@ if st.button("Fermer la partie"):
     st.session_state.pop('session_creee', None)
     st.session_state.pop('session_rejointe', None)
     st.rerun()
+
+def quitter_session_duel():
+    id_session = st.session_state.get('current_session_id')
+    nom_utilisateur = auth.name  # Assurez-vous que auth.name est correctement défini
+
+    if id_session:
+        session_ref = db.collection("session").document(id_session)
+        session_data = session.to_dict()
+        if session_data['joueur_1'] == nom_utilisateur:
+            session_ref.update({"joueur_1": ""})
+        elif session_data['joueur_2'] == nom_utilisateur:
+            session_ref.update({"joueur_2": ""})
+
+        session = session_ref.get()  # Récupérer à nouveau les données mises à jour
+        session_data = session.to_dict()
+        if session_data['joueur_1'] == "" and session_data['joueur_2'] == "":
+            session_ref.delete()  # Supprimer la session si elle est vide
+
+if st.button("Quitter la session"):
+    quitter_session_duel()  # Plus besoin de passer id_session et nom_utilisateur
