@@ -106,8 +106,11 @@ def quitter_session_duel():
             if session_data['joueur_1'] == "" and session_data['joueur_2'] == "":
                 session_ref.delete()  # Supprimer la session si elle est vide
 
-if st.button("Quitter la session"):
-    quitter_session_duel()
-    st.session_state.pop('session_creee', None)
-    st.session_state.pop('session_rejointe', None)
-    st.rerun()
+if st.session_state.get('session_creee') or st.session_state.get('session_rejointe'):
+    if st.button("Quitter la session"):
+        quitter_session_duel()
+        # Supprimez les états de session appropriés
+        st.session_state.pop('session_creee', None)
+        st.session_state.pop('session_rejointe', None)
+        st.session_state.pop('current_session', None)  # Assurez-vous de réinitialiser aussi cet état
+        st.rerun()
