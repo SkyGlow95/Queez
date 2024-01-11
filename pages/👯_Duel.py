@@ -49,8 +49,21 @@ if 'session_creee' not in st.session_state:
         st.rerun()
 
 # Affichage des sessions disponibles pour rejoindre
-if 'session_rejointe' not in st.session_state:
-    afficher_sessions_duel()
+def rejoindre_session_duel(id_session):
+    # Mise à jour de la session dans Firestore pour ajouter le joueur
+    db.collection("session").document(id_session).update({"joueur_2": auth.name})
+    # Autres mises à jour si nécessaire
+
+if st.session_state.get('session_creee') or st.session_state.get('session_rejointe'):
+    session_data = st.session_state.get('current_session', {})
+    st.sidebar.write(f"Session: {session_data['nom']}")
+    st.sidebar.write(f"Joueur 1: {session_data['joueur_1']}")
+    st.sidebar.write(f"Joueur 2: {session_data.get('joueur_2', 'En attente...')}")
+    st.sidebar.write(f"Mode: {session_data['mode_de_jeu']}")
+
+    if session_data.get('joueur_2') and st.sidebar.button("Lancer la partie"):
+        # Logique pour démarrer la partie
+        pass
 
 # Gestion de la partie en mode Duel
 if st.session_state.get('session_creee') or st.session_state.get('session_rejointe'):
