@@ -58,7 +58,7 @@ def mode_solo():
         afficher_question_et_propositions()
 
 def demarrer_quiz(mode_choisi):
-    st.session_state['mode'] = mode_choisi
+    st.session_state['mode'] = self.mode_choisi
     st.session_state['questions'] = recuperer_questions(mode_choisi)
     random.shuffle(st.session_state['questions'])
     st.session_state['current_question_index'] = 0
