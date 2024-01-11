@@ -11,9 +11,9 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
-        'Get Help': 'https://www.extremelycoolapp.com/help',
-        'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# This is a header. This is an *extremely* cool app!"
+        'Get Help': 'https://www.queez.com/help',
+        'Report a bug': "https://www.queez.com/bug",
+        'About': "# Oe c'est Greg. J'ai fait la *meilleur* app!"
     }
 )
 
