@@ -26,8 +26,6 @@ try:
 except KeyError as e:
     st.error("Erreur d'authentification : " + str(e))
 
-auth.name, auth.authentication_status, auth.username = auth.authenticator.login('Login', 'main')
-
 if auth.authentication_status:
     st.session_state['name'] = auth.name  # Stocker le nom dans l'état de session
     auth.authenticator.logout('Logout', 'main', key='unique_logout_key')
