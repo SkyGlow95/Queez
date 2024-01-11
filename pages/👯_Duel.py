@@ -45,6 +45,8 @@ if 'session_creee' not in st.session_state and 'session_rejointe' not in st.sess
         nom_utilisateur = auth.name
         creer_session_duel(nom_session, nom_utilisateur, mode_choisi)
         st.session_state['session_creee'] = True
+        st.session_state['current_session'] = {"nom": nom_session, "joueur_1": nom_utilisateur, "joueur_2": "", "mode_de_jeu": mode_choisi}
+
 else:
     afficher_sessions_duel()
 
