@@ -1,8 +1,5 @@
 import streamlit as st
 from firebase_admin import credentials, firestore, initialize_app, get_app, App
-import uuid
-import hashlib
-import random
 
 # Initialisation de Firestore
 def init_firestore():
@@ -17,15 +14,3 @@ def init_firestore():
 
 # Initialise Firestore
 db = init_firestore()
-
-st.set_page_config(
-    page_title="Queez",
-    page_icon="🧊",
-    layout="wide",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'Get Help': 'https://www.extremelycoolapp.com/help',
-        'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# This is a header. This is an *extremely* cool app!"
-    }
-)
