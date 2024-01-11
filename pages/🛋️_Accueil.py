@@ -32,12 +32,12 @@ elif auth.authentication_status == False:
     except Exception as e:
         st.error(e)
 elif auth.authentication_status is None:
+    st.warning('Veuillez entrer votre nom d’utilisateur et votre mot de passe')
     try:
         if auth.authenticator.register_user('Register user', preauthorization=False):
             st.success('User registered successfully')
     except Exception as e:
         st.error(e)
-    st.warning('Veuillez entrer votre nom d’utilisateur et votre mot de passe')
 
 def get_rankings():
     try:
