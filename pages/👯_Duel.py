@@ -38,15 +38,24 @@ def afficher_sessions_duel():
                 st.rerun()
 
 # Affichage dans la barre latérale pour créer une session
-if 'session_creee' not in st.session_state:
-    mode_choisi = st.sidebar.selectbox("Choisir le mode de jeu", ["cyber", "litterature", "geographie", "science", "Extrème"], key="mode_choisi_duel")
-    nom_session = st.sidebar.text_input("Nom de la session", key="nom_session_duel")
-    if st.sidebar.button("Créer une session Duel", key="creer_session_duel"):
-        nom_utilisateur = auth.name  # Assurez-vous que auth.name est correctement défini
-        creer_session_duel(nom_session, nom_utilisateur, mode_choisi)
-        st.session_state['session_creee'] = True
-        st.sidebar.write("Session créée avec succès.")
-        st.rerun()
+# Affichage des sessions disponibles pour rejoindre
+if 'session_rejointe' not in st.session_state:
+    afficher_sessions_duel()
+
+if st.session_state.get('session_creee') or st.session_state.get('session_rejointe'):
+    # Assurez-vous que session_data est bien défini dans st.session_state
+    if 'current_session' in st.session_state:
+        session_data = st.session_state['current_session']
+        st.sidebar.write(f"Session: {session_data['nom']}")
+        st.sidebar.write(f"Joueur 1: {session_data['joueur_1']}")
+        st.sidebar.write(f"Joueur 2: {session_data.get('joueur_2', 'En attente...')}")
+        st.sidebar.write(f"Mode: {session_data['mode_de_jeu']}")
+
+        if session_data.get('joueur_2') and st.sidebar.button("Lancer la partie"):
+            # Logique pour démarrer la partie
+            pass
+    else:
+        st.sidebar.write("Aucune session sélectionnée ou créée.")
 
 # Affichage des sessions disponibles pour rejoindre
 def rejoindre_session_duel(id_session):
