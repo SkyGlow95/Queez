@@ -81,6 +81,8 @@ if st.session_state.get('session_creee') or st.session_state.get('session_rejoin
 
 # Réinitialiser l'état de la session
 if st.button("Fermer la partie"):
-    # Réinitialiser les états session_creee et session_rejointe
-    del st.session_state['session_creee']
-    del st.session_state['session_rejointe']
+    # Supprimer les clés de manière sécurisée sans générer d'erreur si elles n'existent pas
+    st.session_state.pop('session_creee', None)
+    st.session_state.pop('session_rejointe', None)
+    # Réinitialiser ou mettre à jour d'autres états de session au besoin
+
