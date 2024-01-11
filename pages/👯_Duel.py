@@ -80,13 +80,6 @@ if st.session_state.get('session_creee') or st.session_state.get('session_rejoin
     # Logique du jeu pour le mode Duel
     pass
 
-# Réinitialiser l'état de la session
-if st.button("Fermer la partie"):
-    # Supprimer les clés de manière sécurisée sans générer d'erreur si elles n'existent pas
-    st.session_state.pop('session_creee', None)
-    st.session_state.pop('session_rejointe', None)
-    st.rerun()
-
 def quitter_session_duel():
     id_session = st.session_state.get('current_session_id')
     nom_utilisateur = auth.name  # Assurez-vous que auth.name est correctement défini
@@ -109,4 +102,6 @@ def quitter_session_duel():
 
 if st.button("Quitter la session"):
     quitter_session_duel()
+    st.session_state.pop('session_creee', None)
+    st.session_state.pop('session_rejointe', None)
     st.rerun()
