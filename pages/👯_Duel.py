@@ -109,3 +109,4 @@ def quitter_session_duel():
 
 if st.button("Quitter la session"):
     quitter_session_duel()
+    st.rerun()
