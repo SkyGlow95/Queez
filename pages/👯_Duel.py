@@ -3,10 +3,20 @@ from main import init_firestore
 
 db = init_firestore()
 
-# Fonction pour créer une session de duel
-def creer_session_duel(nom_session, mode_de_jeu):
-    # Logique pour créer une session dans Firestore
-    pass
+def creer_session_duel(nom_session, nom_utilisateur, mode_de_jeu):
+    session_data = {
+        "nom": nom_session,
+        "joueur_1": nom_utilisateur,  # Remplacer par le nom du joueur si disponible
+        "joueur_2": "",
+        "point_joueur_1": 0,
+        "point_joueur_2": 0,
+        "question_valide_joueur_1": [],
+        "question_valide_joueur_2": [],
+        "session_lancer": False,
+        "mode_de_jeu": mode_de_jeu  # Ajout du mode de jeu
+    }
+    # Créer un nouveau document dans Firestore
+    db.collection("session").document(nom_session).set(session_data)
 
 # Fonction pour rejoindre une session de duel
 def rejoindre_session_duel(id_session):
@@ -24,8 +34,14 @@ if 'session_creee' not in st.session_state:
     if mode_choisi == "Duel":
         nom_session = st.sidebar.text_input("Nom de la session")
         if st.sidebar.button("Créer une session Duel"):
-            creer_session_duel(nom_session, mode_choisi)
-            st.session_state['session_creee'] = True
+            nom_session = st.sidebar.text_input("Nom de la session")
+            nom_utilisateur = auth.name  # Assurez-vous que auth.name est correctement défini
+            mode_de_jeu = st.sidebar.selectbox("Choisir le mode de jeu", ["cyber", "litterature", "science", "geographie", "Extrème"])
+
+            if st.sidebar.button("Créer une session Duel"):
+                creer_session_duel(nom_session, nom_utilisateur, mode_de_jeu)
+                st.session_state['session_creee'] = True
+                st.sidebar.write("Session créée avec succès.")
 
 # Affichage des sessions disponibles pour rejoindre
 if 'session_rejointe' not in st.session_state:
