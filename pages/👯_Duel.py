@@ -38,6 +38,7 @@ if 'session_creee' not in st.session_state:
         creer_session_duel(nom_session, nom_utilisateur, mode_choisi)
         st.session_state['session_creee'] = True
         st.sidebar.write("Session créée avec succès.")
+        st.rerun()
 
 # Affichage des sessions disponibles pour rejoindre
 if 'session_rejointe' not in st.session_state:
