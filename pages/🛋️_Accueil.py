@@ -21,7 +21,7 @@ db = init_firestore()
 auth.name, auth.authentication_status, auth.username = auth.authenticator.login('Login', 'main')
 
 try:
-    if authenticator.register_user('Register user', preauthorization=False):
+    if auth.authenticator.register_user('Register user', preauthorization=False):
         st.success('User registered successfully')
 except Exception as e:
     st.error(e)
